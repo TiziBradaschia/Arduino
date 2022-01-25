@@ -1,0 +1,1 @@
+C:\Users\tizib\OneDrive\Documentos\Arduino\libraries\Blynk\scripts>blynk-ser.bat -c COM9

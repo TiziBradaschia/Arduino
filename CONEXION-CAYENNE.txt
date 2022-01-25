@@ -1,0 +1,16 @@
+WEB!
+https://accounts.mydevices.com/auth/realms/cayenne/login-actions/authenticate?client_id=cayenne-web-app&tab_id=oeR60hurXAs
+
+
+
+
+
+CMD!
+
+C:\Users\tizib\OneDrive\Documentos\Arduino\libraries\CayenneMQTT\extras\scripts>cayenne-ser.bat -c COM9
+        1 archivo(s) copiado(s).
+Connecting device at COM9 to mqtt.mydevices.com:1883...
+OpenC0C("\\.\COM9", baud=9600, data=8, parity=no, stop=1) - OK
+Connect("mqtt.mydevices.com", "1883") - OK
+InOut() START
+DSR is OFF

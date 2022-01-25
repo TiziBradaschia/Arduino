@@ -1,0 +1,94 @@
+/ *
+Este ejemplo muestra cómo conectarse a Cayenne mediante una conexión USB serie y enviar / recibir datos de muestra.
+
+Se requiere la biblioteca CayenneMQTT para ejecutar este boceto. Si aún no lo ha hecho, puede instalarlo desde Arduino IDE Library Manager.
+
+Esto requiere el uso de la conexión USB serial, por lo que no puede usar el dispositivo serial para
+impresión de mensajes. Si necesita imprimir, puede usar SoftwareSerial y conectar otro dispositivo
+para leer mensajes a través de los pines SoftwareSerial.
+
+Para que esto funcione, debe ejecutar el script de conexión en la máquina a la que está conectado Arduino.
+Los scripts se encuentran en la carpeta extras \ scripts de la carpeta principal de la biblioteca. Esto redirige el tráfico
+desde el Arduino al servidor Cayenne.
+
+Pasos:
+1. Configure la información de autenticación de Cayenne para que coincida con la información de autenticación del Panel de control.
+2. Compile y cargue este boceto.
+3. Inicie el script de conexión como se describe a continuación para Windows o Linux / OSX.
+
+Ventanas:
+  1. Abra la línea de comando de Windows (cmd.exe)
+  2. Navegue a la carpeta de scripts escribiendo "cd [ruta]", por ejemplo, "cd C: \ Users \ [YourUserName] \ Documents \ Arduino \ libraries \ CayenneMQTT \ extras \ scripts"
+  3. Ejecute el script escribiendo "cayenne-ser.bat -c COM4" (donde COM4 es el puerto serial de Arduino) y presionando Enter
+
+Linux y OSX:
+    ./cayenne-ser.sh (es posible que deba ejecutarse con sudo)
+    
+Puede especificar el puerto, la velocidad en baudios y el punto final del servidor de esta manera:
+    ./cayenne-ser.sh -c <puerto serie> -b <velocidad en baudios> -s <dirección del servidor> -p <puerto del servidor>
+
+    Por ejemplo :
+      ./cayenne-ser.sh -c / dev / ttyACM0 -b 9600 -s mqtt.mydevices.com -p 1883
+
+    Ejecute cayenne-ser.sh -h para obtener más información.
+
+    Asegúrese de seleccionar el puerto serie correcto (puede haber varios).
+
+¡ATENCIÓN!
+  No utilice Serial para mostrar ningún resultado en este boceto. Interferirá con el Serial
+  Conexión USB. Al cargar bocetos, el IDE de Arduino puede quejarse con "el programador está
+  no responde "o" Acceso denegado ". Deberá finalizar la secuencia de comandos de conexión
+  antes de cargar nuevos bocetos, ya que bloquea el acceso al puerto serie. También asegúrate
+  el Serial Monitor está deshabilitado en el IDE ya que eso puede evitar que Arduino 
+  conectarse a la máquina Windows / Linux / OSX. Si usa Visual Micro para Visual Studio, haga
+  asegúrese de que la depuración automática esté desactivada. De lo contrario, Serial Monitor puede interferir con el
+  Conexión serial.
+* /
+
+#include <CayenneMQTTSerial.h> 
+
+//Conexion a wifi, para la placa wifi?
+//char ssid[]="WiFi486 5.8GHz";
+//char wifipassword[]="00429608425";
+
+// Información de autenticación Cayenne. Esto debe obtenerse del Cayenne Dashboard. 
+char username [] = "5b72fde0-94e0-11eb-883c-638d8ce4c23d" ; 
+char contraseña [] = "c2e610c377001753ead324f2c0ed4bdd88f35c1d" ;
+char clientID [] = "eaf613c0-94e1-11eb-b767-3f1a8f1211ba" ;
+  
+ 
+
+void setup () { // La velocidad en baudios se puede especificar llamando a Cayenne.begin (nombre de usuario, contraseña, clientID, 9600); Cayena . comenzar ( nombre de usuario , contraseña , ID de cliente ); }
+Serial.begin(115200);//baudios por segundos
+Cayenne.begin(username,contraseña,clienteID,9600);//tengo que poner el widi?
+}
+void loop()
+{Cayenne.loop();
+  
+  
+  } 
+}
+  
+
+
+bucle vacío () { Cayenne . bucle (); } 
+  
+
+
+// Función predeterminada para enviar datos del sensor a intervalos a Cayenne. // También puede utilizar funciones para canales específicos, por ejemplo, CAYENNE_OUT (1) para enviar datos del canal 1. 
+CAYENNE_OUT_DEFAULT () { // Escriba datos en Cayenne aquí. Este ejemplo solo envía el tiempo de actividad actual en milisegundos en el canal virtual 0. Cayenne . virtualWrite ( 0 , milis ()); // Algunos ejemplos de otras funciones que puede utilizar para enviar datos. //Cayenne.celsiusWrite(1, 22.0); //Cayenne.luxWrite(2, 700); //Cayenne.virtualWrite(3, 50, TYPE_PROXIMITY, UNIT_CENTIMETER); }
+
+
+  
+  
+  
+  
+  
+  
+
+
+// Función predeterminada para procesar los comandos del actuador desde Cayenne Dashboard. // También puede utilizar funciones para canales específicos, p. Ej. CAYENNE_IN (1) para los comandos del canal 1. 
+CAYENNE_IN_DEFAULT () { // Procesar mensaje aquí. Si hay un error, configure un mensaje de error utilizando getValue.setError (), por ejemplo, getValue.setError ("Mensaje de error"); }
+
+
+  
